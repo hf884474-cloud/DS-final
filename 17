@@ -1,0 +1,145 @@
+class Deque {
+    private int front, rear, size, maxSize;
+    private int[] deque;
+
+    public Deque(int initSize, int[] initValues) {
+        maxSize = 10;
+        deque = new int[maxSize];
+        front = -1;
+        rear = -1;
+        size = 0;
+
+        // Initialize with starting values (inserted at rear by default)
+        for (int i = 0; i < initSize; i++) {
+            insertRear(initValues[i]);
+        }
+    }
+
+    public boolean isFull() {
+        return size == maxSize;
+    }
+
+    public boolean isEmpty() {
+        return size == 0;
+    }
+
+    // --- INSERTION ---
+    public void insertFront(int value) {
+        if (isFull()) {
+            System.out.println("Overflow: Deque is Full!");
+            return;
+        }
+        if (front == -1) { // First element
+            front = 0; rear = 0;
+        } else {
+            front = (front - 1 + maxSize) % maxSize; // Wrap backward
+        }
+        deque[front] = value;
+        size++;
+        System.out.println(value + " inserted at Front.");
+    }
+
+    public void insertRear(int value) {
+        if (isFull()) {
+            System.out.println("Overflow: Deque is Full!");
+            return;
+        }
+        if (front == -1) { // First element
+            front = 0; rear = 0;
+        } else {
+            rear = (rear + 1) % maxSize; // Wrap forward
+        }
+        deque[rear] = value;
+        size++;
+        System.out.println(value + " inserted at Rear.");
+    }
+
+    // --- DELETION ---
+    public void deleteFront() {
+        if (isEmpty()) {
+            System.out.println("Underflow: Deque is Empty!");
+            return;
+        }
+        System.out.println("Deleted from Front: " + deque[front]);
+        if (front == rear) { // Last element removed
+            front = -1; rear = -1;
+        } else {
+            front = (front + 1) % maxSize;
+        }
+        size--;
+    }
+
+    public void deleteRear() {
+        if (isEmpty()) {
+            System.out.println("Underflow: Deque is Empty!");
+            return;
+        }
+        System.out.println("Deleted from Rear: " + deque[rear]);
+        if (front == rear) { // Last element removed
+            front = -1; rear = -1;
+        } else {
+            rear = (rear - 1 + maxSize) % maxSize; // Wrap backward
+        }
+        size--;
+    }
+
+    // --- TRAVERSAL ---
+    public void display() {
+        if (isEmpty()) {
+            System.out.println("Deque is Empty!");
+            return;
+        }
+        System.out.print("Deque: ");
+        int i = front;
+        for (int count = 0; count < size; count++) {
+            System.out.print(deque[i] + " ");
+            i = (i + 1) % maxSize;
+        }
+        System.out.println();
+    }
+}import java.util.Scanner;
+
+public class DequeMenu {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        
+        System.out.print("Enter the number of initial elements (max 10): ");
+        int initSize = scanner.nextInt();
+        int[] initValues = new int[initSize];
+        
+        if(initSize > 0) {
+            System.out.println("Enter " + initSize + " values:");
+            for (int i = 0; i < initSize; i++) initValues[i] = scanner.nextInt();
+        }
+
+        Deque dq = new Deque(initSize, initValues);
+
+        while (true) {
+            System.out.println("\n--- Deque Menu ---");
+            System.out.println("1. Insert Front  2. Insert Rear");
+            System.out.println("3. Delete Front  4. Delete Rear");
+            System.out.println("5. Display       6. Exit");
+            System.out.print("Choice: ");
+            int choice = scanner.nextInt();
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Value to insert at front: ");
+                    dq.insertFront(scanner.nextInt());
+                    break;
+                case 2:
+                    System.out.print("Value to insert at rear: ");
+                    dq.insertRear(scanner.nextInt());
+                    break;
+                case 3: dq.deleteFront(); break;
+                case 4: dq.deleteRear(); break;
+                case 5: dq.display(); break;
+                case 6:
+                    System.out.println("Exiting...");
+                    return;
+                default:
+                    System.out.println("Invalid choice!");
+            }
+        }
+    }
+}
