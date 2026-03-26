@@ -1,46 +1,49 @@
+public class Searcher {
+    /**
+     * Performs linear search on an array.
+     * @return the index of the element if found, otherwise -1.
+     */
+    public int findIndex(int[] arr, int size, int target) {
+        for (int i = 0; i < size; i++) {
+            if (arr[i] == target) {
+                return i; // Target found
+            }
+        }
+        return -1; // Target not found
+    }
+}
 import java.util.Scanner;
 
-public class LinearSearch {
+public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        Searcher searcher = new Searcher(); // Create an instance of our logic class
         
-        // 1. Initialize array with a maximum size of 10
         int[] numbers = new int[10];
-        int n;
+        
+        System.out.print("Enter number of elements (1-10): ");
+        int n = scanner.nextInt();
 
-        System.out.print("Enter the number of elements (max 10): ");
-        n = scanner.nextInt();
-
-        // Safety check for array bounds
         if (n > 10 || n < 1) {
-            System.out.println("Invalid size! Please enter a number between 1 and 10.");
+            System.out.println("Error: Size must be between 1 and 10.");
             return;
         }
 
-        // 2. Input elements into the array
-        System.out.println("Enter " + n + " integers:");
+        System.out.println("Enter " + n + " numbers:");
         for (int i = 0; i < n; i++) {
             numbers[i] = scanner.nextInt();
         }
 
-        // 3. Input the target element to find
-        System.out.print("Enter the value to search for: ");
+        System.out.print("Enter search target: ");
         int target = scanner.nextInt();
 
-        // 4. Perform Linear Search
-        int foundIndex = -1; 
-        for (int i = 0; i < n; i++) {
-            if (numbers[i] == target) {
-                foundIndex = i; // Store the index if found
-                break;          // Exit loop early once found
-            }
-        }
+        // Calling the method from the separate class
+        int result = searcher.findIndex(numbers, n, target);
 
-        // 5. Output results
-        if (foundIndex != -1) {
-            System.out.println("Element " + target + " found at index: " + foundIndex);
+        if (result != -1) {
+            System.out.println("Success! Element found at index " + result);
         } else {
-            System.out.println("Element " + target + " not found in the list.");
+            System.out.println("Element not found in the list.");
         }
 
         scanner.close();
