@@ -1,0 +1,70 @@
+public class BinarySearcher {
+    /**
+     * Performs binary search on a sorted array.
+     * @return index of target, or -1 if not found.
+     */
+    public int search(int[] arr, int size, int target) {
+        int low = 0;
+        int high = size - 1;
+
+        while (low <= high) {
+            // Calculate middle index
+            int mid = low + (high - low) / 2;
+
+            // Check if target is at mid
+            if (arr[mid] == target) {
+                return mid;
+            }
+
+            // If target is greater, ignore left half
+            if (arr[mid] < target) {
+                low = mid + 1;
+            } 
+            // If target is smaller, ignore right half
+            else {
+                high = mid - 1;
+            }
+        }
+        return -1; // Not found
+    }
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class BinaryMain {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        BinarySearcher bSearch = new BinarySearcher();
+        
+        int[] numbers = new int[10];
+        
+        System.out.print("Enter number of elements (max 10): ");
+        int n = sc.nextInt();
+
+        if (n > 10 || n < 1) {
+            System.out.println("Invalid size.");
+            return;
+        }
+
+        System.out.println("Enter " + n + " numbers:");
+        for (int i = 0; i < n; i++) {
+            numbers[i] = sc.nextInt();
+        }
+
+        // IMPORTANT: Array must be sorted for Binary Search
+        Arrays.sort(numbers, 0, n);
+        System.out.println("Sorted array: " + Arrays.toString(Arrays.copyOf(numbers, n)));
+
+        System.out.print("Enter value to find: ");
+        int target = sc.nextInt();
+
+        int result = bSearch.search(numbers, n, target);
+
+        if (result != -1) {
+            System.out.println("Element found at index " + result);
+        } else {
+            System.out.println("Element not found.");
+        }
+        sc.close();
+    }
+}
+}
