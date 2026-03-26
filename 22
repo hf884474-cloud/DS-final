@@ -1,0 +1,81 @@
+import java.util.Scanner;
+
+class Node {
+    int data;
+    Node next;
+
+    // Constructor to create a new node
+    Node(int data) {
+        this.data = data;
+        this.next = null;
+    }
+}
+
+class LinkedList {
+    Node head = null;
+    Node tail = null;
+
+    // Method to add a new node to the end of the list
+    public void addNode(int data) {
+        Node newNode = new Node(data);
+
+        // If list is empty, new node is both head and tail
+        if (head == null) {
+            head = newNode;
+            tail = newNode;
+        } else {
+            // Point current tail to new node, then update tail
+            tail.next = newNode;
+            tail = newNode;
+        }
+    }
+
+    // Method to count the number of nodes
+    public int countNodes() {
+        int count = 0;
+        Node current = head;
+
+        while (current != null) {
+            count++;
+            current = current.next; // Move to the next node
+        }
+        return count;
+    }
+
+    // Method to display the list
+    public void display() {
+        Node current = head;
+        if (head == null) {
+            System.out.println("List is empty");
+            return;
+        }
+        System.out.print("Nodes: ");
+        while (current != null) {
+            System.out.print(current.data + (current.next == null ? "" : " -> "));
+            current = current.next;
+        }
+        System.out.println();
+    }
+}
+
+public class LinkedMain {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        LinkedList list = new LinkedList();
+
+        System.out.print("How many nodes do you want to add? ");
+        int n = sc.nextInt();
+
+        for (int i = 0; i < n; i++) {
+            System.out.print("Enter value for node " + (i + 1) + ": ");
+            int value = sc.nextInt();
+            list.addNode(value);
+        }
+
+        // Display results
+        list.display();
+        System.out.println("Total number of nodes: " + list.countNodes());
+
+        sc.close();
+    }
+}
