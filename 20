@@ -1,0 +1,59 @@
+import java.util.Scanner;
+
+class SelectionSorter {
+    // Manual Selection Sort Logic
+    public void sort(int[] arr, int n) {
+        // One by one move the boundary of the unsorted subarray
+        for (int i = 0; i < n - 1; i++) {
+            // Find the minimum element in unsorted array
+            int minIndex = i;
+            for (int j = i + 1; j < n; j++) {
+                if (arr[j] < arr[minIndex]) {
+                    minIndex = j;
+                }
+            }
+
+            // Swap the found minimum element with the first element
+            int temp = arr[minIndex];
+            arr[minIndex] = arr[i];
+            arr[i] = temp;
+        }
+    }
+}
+
+public class SelectionMain {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        SelectionSorter sorter = new SelectionSorter();
+        
+        int[] numbers = new int[10];
+        
+        System.out.print("Enter number of elements (max 10): ");
+        int n = sc.nextInt();
+
+        if (n > 10 || n < 1) {
+            System.out.println("Invalid size.");
+            return;
+        }
+
+        System.out.println("Enter " + n + " numbers:");
+        for (int i = 0; i < n; i++) {
+            numbers[i] = sc.nextInt();
+        }
+
+        // Perform Selection Sort
+        sorter.sort(numbers, n);
+
+        // Manual Print (Simplified Logic)
+        System.out.print("Sorted list: ");
+        for (int i = 0; i < n; i++) {
+            System.out.print(numbers[i]);
+            if (i < n - 1) {
+                System.out.print(", ");
+            }
+        }
+        System.out.println();
+        
+        sc.close();
+    }
+}
