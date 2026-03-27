@@ -1,0 +1,77 @@
+import java.util.Scanner;
+
+class Node {
+    int data;
+    Node next;
+
+    Node(int data) {
+        this.data = data;
+        this.next = null;
+    }
+}
+
+class CircularLinkedList {
+    Node head = null;
+    Node tail = null;
+
+    // Method to insert at the beginning
+    public void insertAtBeginning(int data) {
+        Node newNode = new Node(data);
+
+        if (head == null) {
+            // List is empty
+            head = newNode;
+            tail = newNode;
+            newNode.next = head;
+        } else {
+            // New node points to current head
+            newNode.next = head;
+            // Tail must point to the new head to keep it circular
+            tail.next = newNode;
+            // Update head to the new node
+            head = newNode;
+        }
+        System.out.println("Inserted " + data + " at the beginning.");
+    }
+
+    // Method to display the circular list
+    public void display() {
+        if (head == null) {
+            System.out.println("List is empty.");
+            return;
+        }
+        Node current = head;
+        System.out.print("Circular List: ");
+        do {
+            System.out.print(current.data + " -> ");
+            current = current.next;
+        } while (current != head);
+        System.out.println("(Back to Head: " + head.data + ")");
+    }
+}
+
+public class CircularInsertMain {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        CircularLinkedList cll = new CircularLinkedList();
+        int choice;
+
+        do {
+            System.out.println("\n--- Circular List Menu ---");
+            System.out.println("1. Insert at Beginning");
+            System.out.println("2. Display List");
+            System.out.println("3. Exit");
+            System.out.print("Choice: ");
+            choice = sc.nextInt();
+
+            if (choice == 1) {
+                System.out.print("Enter value: ");
+                cll.insertAtBeginning(sc.nextInt());
+            } else if (choice == 2) {
+                cll.display();
+            }
+        } while (choice != 3);
+
+        sc.close();
+    }
+}
