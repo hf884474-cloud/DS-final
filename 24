@@ -1,0 +1,127 @@
+import java.util.Scanner;
+
+class Node {
+    int data;
+    Node next;
+
+    Node(int data) {
+        this.data = data;
+        this.next = null;
+    }
+}
+
+class LinkedList {
+    Node head = null;
+
+    // 1. Insert at the beginning
+    public void insertAtBeginning(int data) {
+        Node newNode = new Node(data);
+        newNode.next = head;
+        head = newNode;
+        System.out.println("Inserted " + data + " at the beginning.");
+    }
+
+    // 2. Insert at the end
+    public void insertAtEnd(int data) {
+        Node newNode = new Node(data);
+        if (head == null) {
+            head = newNode;
+        } else {
+            Node temp = head;
+            while (temp.next != null) {
+                temp = temp.next;
+            }
+            temp.next = newNode;
+        }
+        System.out.println("Inserted " + data + " at the end.");
+    }
+
+    // 3. Insert at a specific position (1-based index)
+    public void insertAtPosition(int data, int position) {
+        if (position < 1) {
+            System.out.println("Invalid position!");
+            return;
+        }
+
+        if (position == 1) {
+            insertAtBeginning(data);
+            return;
+        }
+
+        Node newNode = new Node(data);
+        Node temp = head;
+
+        // Traverse to the node before the target position
+        for (int i = 1; temp != null && i < position - 1; i++) {
+            temp = temp.next;
+        }
+
+        if (temp == null) {
+            System.out.println("The previous position is null. Position out of bounds.");
+        } else {
+            newNode.next = temp.next;
+            temp.next = newNode;
+            System.out.println("Inserted " + data + " at position " + position);
+        }
+    }
+
+    public void display() {
+        if (head == null) {
+            System.out.println("List is empty.");
+            return;
+        }
+        Node temp = head;
+        System.out.print("Current List: ");
+        while (temp != null) {
+            System.out.print(temp.data + (temp.next == null ? "" : " -> "));
+            temp = temp.next;
+        }
+        System.out.println();
+    }
+}
+
+public class LinkedListInsertMenu {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        LinkedList list = new LinkedList();
+        int choice;
+
+        do {
+            System.out.println("\n--- Insertion Menu ---");
+            System.out.println("1. Insert at Beginning");
+            System.out.println("2. Insert at End");
+            System.out.println("3. Insert at Specific Position");
+            System.out.println("4. Display List");
+            System.out.println("5. Exit");
+            System.out.print("Enter choice: ");
+            choice = sc.nextInt();
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Value: ");
+                    list.insertAtBeginning(sc.nextInt());
+                    break;
+                case 2:
+                    System.out.print("Value: ");
+                    list.insertAtEnd(sc.nextInt());
+                    break;
+                case 3:
+                    System.out.print("Value: ");
+                    int val = sc.nextInt();
+                    System.out.print("Position: ");
+                    int pos = sc.nextInt();
+                    list.insertAtPosition(val, pos);
+                    break;
+                case 4:
+                    list.display();
+                    break;
+                case 5:
+                    System.out.println("Exiting...");
+                    break;
+                default:
+                    System.out.println("Invalid choice!");
+            }
+        } while (choice != 5);
+        sc.close();
+    }
+}
