@@ -1,0 +1,84 @@
+import java.util.Scanner;
+
+class Node {
+    int data;
+    Node next;
+
+    Node(int data) {
+        this.data = data;
+        this.next = null;
+    }
+}
+
+class CircularLinkedList {
+    Node head = null;
+    Node tail = null;
+
+    // Method to add a node to the circular list
+    public void addNode(int data) {
+        Node newNode = new Node(data);
+
+        if (head == null) {
+            // First node points to itself
+            head = newNode;
+            tail = newNode;
+            newNode.next = head;
+        } else {
+            // New node points to head, and old tail points to new node
+            tail.next = newNode;
+            tail = newNode;
+            tail.next = head;
+        }
+    }
+
+    // Method to count the number of nodes
+    public int countNodes() {
+        int count = 0;
+        if (head == null) {
+            return 0;
+        }
+
+        Node current = head;
+        do {
+            count++;
+            current = current.next;
+        } while (current != head); // Stop when we loop back to the start
+
+        return count;
+    }
+
+    // Method to display the list
+    public void display() {
+        if (head == null) {
+            System.out.println("List is empty.");
+            return;
+        }
+        Node current = head;
+        System.out.print("Circular List: ");
+        do {
+            System.out.print(current.data + " -> ");
+            current = current.next;
+        } while (current != head);
+        System.out.println("(Back to Head: " + head.data + ")");
+    }
+}
+
+public class CircularMain {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        CircularLinkedList cll = new CircularLinkedList();
+
+        System.out.print("Enter number of nodes to create: ");
+        int n = sc.nextInt();
+
+        for (int i = 0; i < n; i++) {
+            System.out.print("Enter value for node " + (i + 1) + ": ");
+            cll.addNode(sc.nextInt());
+        }
+
+        cll.display();
+        System.out.println("Total number of nodes: " + cll.countNodes());
+
+        sc.close();
+    }
+}
